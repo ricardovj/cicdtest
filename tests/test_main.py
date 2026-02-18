@@ -14,5 +14,5 @@ def test_flask_hello():
   data = resp.get_json()
   assert data["message"].startswith("Hello")
 
-def test_fail():
-  assert add(2, 2) == 5
+def test_add_equal():
+  assert add(2, 2) == 4
