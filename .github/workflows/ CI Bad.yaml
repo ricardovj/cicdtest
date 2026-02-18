@@ -34,5 +34,5 @@ jobs:
       
       - name: Deploy to staging
         run: |
-          chmod +x deploy.sh
-          ./deploy.sh staging
+          chmod +x app/deploy.sh
+          ./app/deploy.sh staging
