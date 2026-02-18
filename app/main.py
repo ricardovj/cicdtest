@@ -18,5 +18,9 @@ def add_endpoint():
     return jsonify(error="Invalid input"), 400
     return jsonify(result=add(a, b))
 
+@app.route("/health")
+def health():
+  return jsonify(status="ok")
+
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8080)
