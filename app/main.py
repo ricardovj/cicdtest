@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, request
 
-app = Flask(name)
-def app():
-  Flask(name)
+app = Flask(__name__)
+
 
 def add(a, b):
   return a + b
