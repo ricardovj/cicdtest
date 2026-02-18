@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request
 app = Flask(name)
 
 def add(a, b):
-  return a - b
+  return a + b
 
 @app.route("/")
 def hello():
@@ -16,7 +16,7 @@ def add_endpoint():
     b = float(request.args.get("b", "0"))
   except ValueError:
     return jsonify(error="Invalid input"), 400
-    return jsonify(result=add(a, b))
+  return jsonify(result=add(a, b))
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=8080)
