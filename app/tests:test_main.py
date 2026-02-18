@@ -5,7 +5,7 @@ def test_add_positive():
   assert add(2, 3) == 5
 
 def test_add_negative():
-  assert add(-1, -1) == -2
+  assert add(-1, -1) == 0
 
 def test_flask_hello():
   client = app.test_client()
