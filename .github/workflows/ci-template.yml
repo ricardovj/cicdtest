@@ -2,9 +2,9 @@ name: CI Good Template
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, add-readme-note]
   push:
-    branches: [main]
+    branches: [main, add-readme-note]
 
 jobs:
   unit-tests:
