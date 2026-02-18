@@ -9,11 +9,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run slow end-to-end tests
-        run: ./e2e_tests.sh
+        run: chmod +x app/e2e_tests.sh && ./app/e2e_tests.sh
   deploy:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'pull_request'
     steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Deploy to staging
-        run: ./deploy.sh staging
+        run: |
+          chmod +x deploy.sh app/deploy.sh 2>/dev/null || true
+          if [ -x app/deploy.sh ]; then ./app/deploy.sh staging; else ./deploy.sh staging; fi
