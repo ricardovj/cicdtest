@@ -20,8 +20,6 @@ jobs:
         run: pip install -r app/requirements.txt
       - name: Run unit tests
         run: PYTHONPATH=. pytest -q
-      - name: Run unit tests
-        run: pytest -q
 
   build:
     needs: unit-tests
