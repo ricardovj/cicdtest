@@ -1,5 +1,5 @@
 # CI/CD Starter Lab
-
+# ADDING COMMENT FOR PR
 A minimal app and CI pipeline for teaching CI/CD.
 
 ## What it contains
