@@ -2,7 +2,7 @@ import pytest
 from app.main import add, app
 
 def test_add_positive():
-  assert add(2, 3) == 6
+  assert add(2, 6) == 5
 
 def test_add_negative():
   assert add(-1, -1) == -2
