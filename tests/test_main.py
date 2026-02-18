@@ -1,5 +1,8 @@
 import pytest
-from main import add, app
+try:
+  from app.main import add, app
+except ModuleNotFoundError:
+  from main import add, app
 
 def test_add_positive():
   assert add(2, 3) == 5
