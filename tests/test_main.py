@@ -16,3 +16,4 @@ def test_flask_hello():
 
 def test_fail():
   assert add(2, 2) == 4
+
