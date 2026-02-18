@@ -16,5 +16,9 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Deploy to staging
-        run: chmod +x deploy.sh && ./deploy.sh staging
+        run: |
+          chmod +x deploy.sh app/deploy.sh 2>/dev/null || true
+          if [ -x app/deploy.sh ]; then ./app/deploy.sh staging; else ./deploy.sh staging; fi
