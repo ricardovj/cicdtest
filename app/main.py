@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 
-app = Flask(name)
+# This is a change to trigger the CI/CD pipeline!
+app = Flask(__name__)
 
 def add(a, b):
   return a + b
