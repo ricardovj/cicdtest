@@ -1,4 +1,4 @@
-name: CI Good
+name: CI Bad
 on:
   pull_request:
     branches:
