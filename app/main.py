@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 
 app = Flask(name)
 
+# Simple function to add two numbers
 def add(a, b):
   return a + b
 
