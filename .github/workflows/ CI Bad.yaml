@@ -20,7 +20,9 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f app/requirements.txt ]; then pip install -r app/requirements.txt; fi
       - name: Run slow end-to-end tests
-        run: ./e2e_tests.sh
+        run: |
+          chmod +x app/e2e_tests.sh
+          ./app/e2e_tests.sh
 
   deploy:
     runs-on: ubuntu-latest
