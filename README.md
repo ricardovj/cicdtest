@@ -1,6 +1,6 @@
 # CI/CD Starter Lab
 
-A minimal app and CI pipeline for teaching CI/CD.
+A minimal app & CI pipeline for teaching CI/CD.
 
 ## What it contains
 
