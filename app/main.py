@@ -7,7 +7,7 @@ def add(a, b):
 
 @app.route("/")
 def hello():
-  return jsonify(message="Pipeline break!")
+  return jsonify(message="Fixed again!")
 
 @app.route("/add")
 def add_endpoint():
