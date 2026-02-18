@@ -15,4 +15,5 @@ sleep 2
 echo "Deploy complete"
 
 Note: make this script executable:
+chmod +x e2e_tests.sh
 chmod +x deploy.sh

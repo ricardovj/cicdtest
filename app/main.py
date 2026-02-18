@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 
-app = Flask(name)
+app = Flask(__name__)
 
 def add(a, b):
   return a + b
@@ -15,7 +15,6 @@ def add_endpoint():
     a = float(request.args.get("a", "0"))
     b = float(request.args.get("b", "0"))
   except ValueError:
-    return jsonify(error="Invalid input"), 400
     return jsonify(result=add(a, b))
 
 if __name__ == "__main__":
