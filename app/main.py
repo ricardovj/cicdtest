@@ -1,15 +1,22 @@
 from flask import Flask, jsonify, request
 
-app = Flask(name)
+app = Flask(__name__)
 
 def add(a, b):
   return a + b
 
 @app.route("/")
 def hello():
-  return jsonify(message="Fixed again!")
+  return jsonify(message="Hello from CI/CD Lab!")
 
-@app.route("/add")
+@app.route("/health")
+def health():
+    return jsonify(status="healthy")
+
+@app.route("/add/<int:a>/<int:b>") 
+def add_endpoint(a, b):
+    return jsonify(result=add(a, b))
+
 def add_endpoint():
   try:
     a = float(request.args.get("a", "0"))
