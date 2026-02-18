@@ -25,9 +25,9 @@ jobs:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
         run: |
-          docker build -t myapp:latest .
+          docker build -t myapp:latest ./app
           echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
           docker push myapp:latest
 
       - name: Deploy to production
-        run: ./deploy.sh prod
+        run: bash ./app/deploy.sh prod
