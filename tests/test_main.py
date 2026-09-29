@@ -1,4 +1,9 @@
 import pytest
+try:
+  from app.main import add, app
+except ModuleNotFoundError:
+  from main import add, app
+
 from app.main import add, app
 
 def test_add_positive():
@@ -15,4 +20,4 @@ def test_flask_hello():
   assert data["message"].startswith("Hello")
 
 def test_fail():
-  assert add(2, 2) == 5
+  assert add(2, 2) == 4
