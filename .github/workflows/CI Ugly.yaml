@@ -1,25 +1,28 @@
 name: CI Ugly
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: Full commit SHA of the GHCR image to deploy
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  deploy-prod:
     runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 10
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Run tests
-        run: |
-          pytest -q
-
-      - name: Build and push
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        run: |
-          docker build -t myapp:latest .
-          echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
-          docker push myapp:latest
-
+      - uses: actions/checkout@v4
       - name: Deploy to production
-        run: ./deploy.sh prod
+        env:
+          SHA: ${{ inputs.sha }}
+        run: |
+          [[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "sha must be a full 40-char commit SHA"; exit 1; }
+          ./deploy.sh prod "$SHA"

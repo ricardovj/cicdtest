@@ -1,0 +1,17 @@
+name: CI Bad
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run slow end-to-end tests
+        run: bash app/e2e_tests.sh

@@ -43,24 +43,41 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Download image artifact
         uses: actions/download-artifact@v4
         with:
           name: image-tar
-      - name: Show artifact contents
-        run: ls -lh
+      - name: Push image to GHCR tagged with commit SHA
+        env:
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.actor }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          IMAGE="ghcr.io/${REPO,,}:${SHA}"
+          echo "$REGISTRY_TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
+          docker load -i image.tar
+          docker tag "myapp:${SHA}" "$IMAGE"
+          docker push "$IMAGE"
 
   deploy-staging:
     if: github.ref == 'refs/heads/main'
     needs: publish
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Download image artifact
         uses: actions/download-artifact@v4
         with:
           name: image-tar
       - name: Simulate deploy
         run: |
-          chmod +x ./deploy.sh || true
-          ./deploy.sh staging ${{ github.sha }}
+          chmod +x ./deploy.sh
+          ./deploy.sh staging "$SHA"
+        env:
+          SHA: ${{ github.sha }}
