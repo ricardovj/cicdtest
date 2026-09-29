@@ -10,7 +10,9 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -q
+          pip install -r requirements.txt
+          pip install pytest -q
+          python -m pytest -q
 
       - name: Build and push
         env:
@@ -22,4 +24,4 @@ jobs:
           docker push myapp:latest
 
       - name: Deploy to production
-        run: ./deploy.sh prod
+        run: bash app/deploy.sh prod
