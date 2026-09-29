@@ -56,11 +56,16 @@ jobs:
     needs: publish
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Download image artifact
         uses: actions/download-artifact@v4
         with:
           name: image-tar
       - name: Simulate deploy
         run: |
-          chmod +x ./deploy.sh || true
+          chmod +x ./deploy.sh
           ./deploy.sh staging ${{ github.sha }}
+
+
+    
