@@ -13,6 +13,3 @@ def test_flask_hello():
   assert resp.status_code == 200
   data = resp.get_json()
   assert data["message"].startswith("Hello")
-
-def test_fail():
-  assert add(2, 2) == 5
