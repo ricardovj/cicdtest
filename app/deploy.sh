@@ -15,4 +15,4 @@ sleep 2
 echo "Deploy complete"
 
 Note: make this script executable:
-chmod +x deploy.sh
+# chmod +x deploy.sh

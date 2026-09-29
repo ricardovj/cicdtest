@@ -40,4 +40,7 @@ pytest -q
 ## Notes
 
 - The workflow demonstrates CI steps: test, build, publish artifact, and a simulated deploy.  
+
 - `deploy.sh` only prints environment information and commit SHA to simulate deployment.
+
+  
