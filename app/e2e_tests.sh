@@ -1,1 +1,0 @@
-echo "This is a slow end-to-end test"
