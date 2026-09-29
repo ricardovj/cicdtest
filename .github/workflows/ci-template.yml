@@ -9,30 +9,38 @@ on:
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r app/requirements.txt
+
       - name: Run unit tests
-        run: pytest -q
+        run: python -m pytest -q
 
   build:
     needs: unit-tests
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Build Docker image
         run: |
-          docker build -t myapp:${{ github.sha }} .
+          docker build -f app/Dockerfile -t myapp:${{ github.sha }} .
           docker save myapp:${{ github.sha }} -o image.tar
+
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
         with:
@@ -40,27 +48,34 @@ jobs:
           path: image.tar
 
   publish:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
+
     steps:
       - name: Download image artifact
         uses: actions/download-artifact@v4
         with:
           name: image-tar
+
       - name: Show artifact contents
         run: ls -lh
 
   deploy-staging:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: publish
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download image artifact
         uses: actions/download-artifact@v4
         with:
           name: image-tar
+
       - name: Simulate deploy
         run: |
-          chmod +x ./deploy.sh || true
-          ./deploy.sh staging ${{ github.sha }}
+          chmod +x ./app/deploy.sh
+          ./app/deploy.sh staging ${{ github.sha }}
