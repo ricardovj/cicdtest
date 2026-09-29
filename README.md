@@ -1,4 +1,4 @@
-# CI/CD Starter Lab
+# CI/CD Starter Lab -- Jacky
 
 A minimal app and CI pipeline for teaching CI/CD.
 
