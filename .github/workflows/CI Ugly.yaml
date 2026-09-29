@@ -4,22 +4,27 @@ on: [push, pull_request]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Run tests
         run: |
+          pip install -r app/requirements.txt
           pytest -q
 
-      - name: Build and push
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+      - name: Build image
+        run: docker build -t myapp:latest -f app/Dockerfile app
+
+      - name: Push image
+        if: ${{ env.DOCKER_USER != '' && env.DOCKER_PASS != '' }}
         run: |
-          docker build -t myapp:latest .
-          echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
-          docker push myapp:latest
+          docker tag myapp:latest "$DOCKER_USER/myapp:latest"
+          echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+          docker push "$DOCKER_USER/myapp:latest"
 
       - name: Deploy to production
-        run: ./deploy.sh prod
+        run: bash ./app/deploy.sh prod
