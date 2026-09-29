@@ -1,13 +1,13 @@
 from flask import Flask, jsonify, request
 
-app = Flask(name)
+app = Flask(__name__)
 
 def add(a, b):
   return a + b
 
 @app.route("/")
 def hello():
-  return jsonify(message="Hello from CI/CD starter!")
+  return jsonify(message="Hello from CI/CD starter!!!!")
 
 @app.route("/add")
 def add_endpoint():
